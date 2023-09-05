@@ -1,4 +1,5 @@
 from maya import cmds
+from uv_testing_tool import core
 
 WINDOW_NAME='uv_test_tool_ui'
 CHECK_BOX_NAME='auto-unwrap_check_box'
@@ -11,37 +12,39 @@ def show_ui():
         cmds.deleteUI(WINDOW_NAME)
 
     # Create new window
-    cmds.window(WINDOW_NAME, title='UV Testing Tool', widthHeight=(450,100))
+    cmds.window(WINDOW_NAME, title='UV Testing Tool', widthHeight=(500,100))
 
     #Auto-Unwrap
-    cmds.columnLayout(adj=True)
+    cmds.columnLayout(adjustableColumn=True)
     cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap")
 
-    # Browse Low Button
+    # Browse Low Export
     cmds.rowLayout(numberOfColumns=4)
-    #cmds.textFieldButtonGrp(bl="...", bc=browse, fi=LOW_POLY_PATH_TEXT_BOX_NAME, l="Export Low Resolution")
-    cmds.text(l='Export Low Resolution')
-    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME)
-    cmds.button(l='...')
-    cmds.button(l='Export')
+    cmds.text(label='Export Low Resolution')
+    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,width=300)
+    cmds.button(label='...',command=browse_low)
+    cmds.button(label='Export',command=browse_low)
     cmds.setParent('..')
+
+    # Browse High Export
     cmds.rowLayout(numberOfColumns=4)
-    #cmds.textFieldButtonGrp(bl="...", bc=browse, fi=HI_POLY_PATH_TEXT_BOX_NAME, l="Export High Resolution")
-    cmds.text(l='Export Low Resolution')
-    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME)
-    cmds.button(l='...')
-    cmds.button(l='Export')
+    cmds.text(label='Export Low Resolution')
+    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,width=300)
+    cmds.button(label='...')
+    cmds.button(label='Export')
     cmds.setParent('..')
-    cmds.text(l='GD67_JoseMunguia', al='right')
+
+    #Credits
+    cmds.text(label='GD67_JoseMunguia', align='right')
 
     # Show window
     cmds.showWindow()
 
-def exportFBX(fileName, fileType):
-    cmds.file(fileName, i=True);
-    return 1
-
     # Browse defined
-def browse():
-    address = cmds.fileDialog2(ff="FBX", ds=2)
-    print
+def browse_low(*args):
+    path = cmds.fileDialog2(fileFilter="FBX", dialogStyle=2)
+    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,edit=True,text=path[0])
+
+def browse_high(*args):
+    path = cmds.fileDialog2(fileFilter="FBX", dialogStyle=2)
+    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,edit=True,text=path[0])
