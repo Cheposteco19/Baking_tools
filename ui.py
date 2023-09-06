@@ -1,5 +1,5 @@
-from maya import cmds
 from uv_testing_tool import core
+from maya import cmds
 
 WINDOW_NAME='uv_test_tool_ui'
 CHECK_BOX_NAME='auto_unwrap_check_box'
@@ -54,7 +54,7 @@ def low_exportFBX(*args):
     if cmds.checkBox(CHECK_BOX_NAME,query=True,value=True)==True:
         auto_unwrap()
     low_path = cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
-    #cmds.file(low_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
+    cmds.file(low_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
 
 def high_exportFBX(*args):
     high_path = cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
