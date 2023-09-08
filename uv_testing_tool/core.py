@@ -7,7 +7,7 @@ def auto_unwrap():
     for item in selected_items:
         cmds.polyAutoProjection(item)
 
-    cmds.u3dLayout(selected_items,res=2048,scl=1,spc=0.0078125,mar=0.0078125,box=(0,1,0,1))
+    cmds.u3dLayout(selected_items,res=2048,scl=1,spc=0.015625,mar=0.0078125,box=(0,1,0,1))
 
     for item in selected_items:
         cmds.polySetToFaceNormal(item)
