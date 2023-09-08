@@ -28,7 +28,7 @@ def show_ui():
 
     # Browse High Export
     cmds.rowLayout(numberOfColumns=4)
-    cmds.text(label='Export Low Resolution')
+    cmds.text(label='Export High Resolution')
     cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,width=300)
     cmds.button(label='...',command=browse_high)
     cmds.button(label='Export',command=high_exportFBX)
@@ -52,21 +52,10 @@ def browse_high(*args):
 #Export buttons
 def low_exportFBX(*args):
     if cmds.checkBox(CHECK_BOX_NAME,query=True,value=True)==True:
-        auto_unwrap()
+        core.auto_unwrap()
     low_path = cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
     cmds.file(low_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
 
 def high_exportFBX(*args):
     high_path = cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
     cmds.file(high_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
-
-def auto_unwrap():
-    newchain = cmds.ls(sl=True)
-
-    for obj in newchain:
-        cmds.polyAutoProjection(obj)
-        cmds.u3dLayout(obj)
-        cmds.polySetToFaceNormal
-        cmds.polySoftEdge(a=45)
-        cmds.delete(ch=True)
-        cmds.makeIdentity(a=True)
