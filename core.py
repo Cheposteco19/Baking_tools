@@ -1,12 +1,16 @@
 from maya import cmds
+import maya.mel as mm
 
 def auto_unwrap():
-    newchain = cmds.ls(sl=True)
+    selected_items = cmds.ls(sl=True)
 
-    for obj in newchain:
-        cmds.polyAutoProjection(obj)
-        cmds.u3dLayout(obj)
-        cmds.polySetToFaceNormal
-        cmds.polySoftEdge(a=45)
-        cmds.delete(ch=True)
-        cmds.makeIdentity(a=True)
+    for item in selected_items:
+        cmds.polyAutoProjection(item)
+
+    cmds.u3dLayout(item)
+
+    for item in selected_items:
+        cmds.polySetToFaceNormal(item)
+        mm.eval('polyUVBorderHard;')
+        cmds.DeleteHistory(item)
+        cmds.FreezeTransformations()

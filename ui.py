@@ -21,7 +21,7 @@ def show_ui():
     # Browse Low Export
     cmds.rowLayout(numberOfColumns=4)
     cmds.text(label='Export Low Resolution')
-    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,width=300)
+    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,width=304)
     cmds.button(label='...',command=browse_low)
     cmds.button(label='Export',command=low_exportFBX)
     cmds.setParent('..')
