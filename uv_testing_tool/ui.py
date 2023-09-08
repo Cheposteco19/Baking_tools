@@ -42,11 +42,11 @@ def show_ui():
 
     # Browse defined
 def browse_low(*args):
-    low_path = cmds.fileDialog2(fileFilter="FBX", dialogStyle=2)
+    low_path = cmds.fileDialog2(fileFilter="*.fbx", dialogStyle=2)
     cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,edit=True,text=low_path[0])
 
 def browse_high(*args):
-    high_path = cmds.fileDialog2(fileFilter="FBX", dialogStyle=2)
+    high_path = cmds.fileDialog2(fileFilter="*.fbx", dialogStyle=2)
     cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,edit=True,text=high_path[0])
 
 #Export buttons
