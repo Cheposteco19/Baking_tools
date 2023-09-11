@@ -1,41 +1,45 @@
 from uv_testing_tool import core
 from maya import cmds
 
-WINDOW_NAME='uv_test_tool_ui'
+WINDOW_NAME='bake_test_ui'
 CHECK_BOX_NAME='auto_unwrap_check_box'
 LOW_POLY_PATH_TEXT_BOX_NAME='low_poly_path_text_box'
 HIGH_POLY_PATH_TEXT_BOX_NAME='high_poly_path_text_box'
+DOCK_CONTROL_NAME='bake_tester_dock_control'
 
 def show_ui():
     # Delete old window
     if cmds.window(WINDOW_NAME, exists=True,query=True):
         cmds.deleteUI(WINDOW_NAME)
 
+    if cmds.dockControl(DOCK_CONTROL_NAME, exists=True,query=True):
+        cmds.deleteUI(DOCK_CONTROL_NAME)
+
     # Create new window
-    cmds.window(WINDOW_NAME, title='UV Testing Tool', widthHeight=(500,100))
+    cmds.window(WINDOW_NAME, title='Bake tester', widthHeight=(500,100))
 
     #Auto-Unwrap
-    cmds.columnLayout(adjustableColumn=True)
+    cmds.columnLayout(adjustableColumn=True, columnOffset=('both',10))
     cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap")
 
     # Browse Low Export
-    cmds.rowLayout(numberOfColumns=4)
-    cmds.text(label='Export Low Resolution')
-    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,width=304)
+    cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
+    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME)
     cmds.button(label='...',command=browse_low)
-    cmds.button(label='Export',command=low_exportFBX)
+    cmds.button(label='Export LOW',command=low_exportFBX)
     cmds.setParent('..')
 
     # Browse High Export
-    cmds.rowLayout(numberOfColumns=4)
-    cmds.text(label='Export High Resolution')
-    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,width=300)
+    cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
+    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME)
     cmds.button(label='...',command=browse_high)
-    cmds.button(label='Export',command=high_exportFBX)
+    cmds.button(label='Export HIGH',command=high_exportFBX)
     cmds.setParent('..')
 
     #Credits
-    cmds.text(label='GD67_JoseMunguia', align='right')
+    cmds.text(label='GD67_JoseMunguia   ', align='right')
+
+    cmds.dockControl(DOCK_CONTROL_NAME,floating=True,label='Bake tester',content=WINDOW_NAME,area='left',width=500,height=100,allowedArea=('top','bottom'))
 
     # Show window
     cmds.showWindow()
