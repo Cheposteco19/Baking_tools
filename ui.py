@@ -1,18 +1,22 @@
 from uv_testing_tool import core
 from maya import cmds
 
-WINDOW_NAME='uv_test_tool_ui'
+WINDOW_NAME='bake_test_ui'
 CHECK_BOX_NAME='auto_unwrap_check_box'
 LOW_POLY_PATH_TEXT_BOX_NAME='low_poly_path_text_box'
 HIGH_POLY_PATH_TEXT_BOX_NAME='high_poly_path_text_box'
+DOCK_CONTROL_NAME='bake_tester_dock_control'
 
 def show_ui():
     # Delete old window
     if cmds.window(WINDOW_NAME, exists=True,query=True):
         cmds.deleteUI(WINDOW_NAME)
 
+    if cmds.dockControl(DOCK_CONTROL_NAME, exists=True,query=True):
+        cmds.deleteUI(DOCK_CONTROL_NAME)
+
     # Create new window
-    cmds.window(WINDOW_NAME, title='Bake Tester', widthHeight=(500,100),nestedDockingEnabled=True)
+    cmds.window(WINDOW_NAME, title='Bake tester', widthHeight=(500,100))
 
     #Auto-Unwrap
     cmds.columnLayout(adjustableColumn=True, columnOffset=('both',10))
@@ -34,6 +38,8 @@ def show_ui():
 
     #Credits
     cmds.text(label='GD67_JoseMunguia   ', align='right')
+
+    cmds.dockControl(DOCK_CONTROL_NAME,floating=True,label='Bake tester',content=WINDOW_NAME,area='left',width=500,height=100,allowedArea=('top','bottom'))
 
     # Show window
     cmds.showWindow()
