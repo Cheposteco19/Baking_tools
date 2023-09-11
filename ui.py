@@ -12,30 +12,28 @@ def show_ui():
         cmds.deleteUI(WINDOW_NAME)
 
     # Create new window
-    cmds.window(WINDOW_NAME, title='UV Testing Tool', widthHeight=(500,100))
+    cmds.window(WINDOW_NAME, title='Bake Tester', widthHeight=(500,100),nestedDockingEnabled=True)
 
     #Auto-Unwrap
-    cmds.columnLayout(adjustableColumn=True)
+    cmds.columnLayout(adjustableColumn=True, columnOffset=('both',10))
     cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap")
 
     # Browse Low Export
-    cmds.rowLayout(numberOfColumns=4)
-    cmds.text(label='Export Low Resolution')
-    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,width=304)
+    cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
+    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME)
     cmds.button(label='...',command=browse_low)
-    cmds.button(label='Export',command=low_exportFBX)
+    cmds.button(label='Export LOW',command=low_exportFBX)
     cmds.setParent('..')
 
     # Browse High Export
-    cmds.rowLayout(numberOfColumns=4)
-    cmds.text(label='Export High Resolution')
-    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,width=300)
+    cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
+    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME)
     cmds.button(label='...',command=browse_high)
-    cmds.button(label='Export',command=high_exportFBX)
+    cmds.button(label='Export HIGH',command=high_exportFBX)
     cmds.setParent('..')
 
     #Credits
-    cmds.text(label='GD67_JoseMunguia', align='right')
+    cmds.text(label='GD67_JoseMunguia   ', align='right')
 
     # Show window
     cmds.showWindow()
