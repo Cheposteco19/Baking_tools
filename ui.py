@@ -26,7 +26,7 @@ def show_ui():
     cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
     cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME)
     cmds.button(label='...',command=browse_low)
-    cmds.button(label='Export LOW',command=low_exportFBX)
+    cmds.button(label='Export LOW',command=low_exportFBX,width=73)
     cmds.setParent('..')
 
     # Browse High Export
