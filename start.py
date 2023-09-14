@@ -1,3 +1,3 @@
-from uv_testing_tool import ui as uv_testing_ui
+from bake_tester import ui as bake_tester_ui
 
-uv_testing_ui.show_ui()
+bake_tester_ui.show_ui()

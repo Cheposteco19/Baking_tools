@@ -1,4 +1,4 @@
-from uv_testing_tool import core
+from bake_tester import core as bake_tester_core
 from maya import cmds
 
 WINDOW_NAME='bake_test_ui'
@@ -56,7 +56,7 @@ def browse_high(*args):
 #Export buttons
 def low_exportFBX(*args):
     if cmds.checkBox(CHECK_BOX_NAME,query=True,value=True)==True:
-        core.auto_unwrap()
+        bake_tester_core.auto_unwrap()
     low_path = cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
     cmds.file(low_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
 
