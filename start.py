@@ -1,3 +1,3 @@
-from bake_tester import ui as bake_tester_ui
+from baking_tools import ui as bake_tester_ui
 
 bake_tester_ui.show_ui()

@@ -1,8 +1,8 @@
-# UV_Testing_Tool
+# Baking_tools
 A Maya tool usefull to test the baking of a high resolution to a low resolution 3D model in a quick iterative process
 
 How to set:
-1. Copy the uv_testing_tool folder into C:\Users\[YOURUSERNAME]\Documents\maya\scripts.
+1. Copy the baking_tools folder into C:\Users\[YOURUSERNAME]\Documents\maya\scripts.
 1. In maya open the shelf where you want to have the tool available.
 1. Open the script editor Windows/GeneralEditors/ScriptEditor.
 1. In the script editor go to File/OpenScript and open the start.py script under uv_testing_tool folder.
