@@ -1,4 +1,4 @@
-from bake_tester import core as bake_tester_core
+from baking_tools import core as bake_tester_core
 from maya import cmds
 
 WINDOW_NAME='bake_test_ui'
@@ -16,7 +16,7 @@ def show_ui():
         cmds.deleteUI(DOCK_CONTROL_NAME)
 
     # Create new window
-    cmds.window(WINDOW_NAME, title='Bake tester', widthHeight=(500,100))
+    cmds.window(WINDOW_NAME, title='Baking tools', widthHeight=(500,100))
 
     #Auto-Unwrap
     cmds.columnLayout(adjustableColumn=True, columnOffset=('both',10))
