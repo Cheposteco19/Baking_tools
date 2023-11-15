@@ -38,7 +38,7 @@ def show_ui():
 
     #Credits
     cmds.rowLayout(numberOfColumns=2, adjustableColumn=2)
-    cmds.text(label='V 1.0.0')
+    cmds.text(label='V 1.0.1')
     cmds.text(label='GD67_JoseMunguia   ', align='right')
 
     cmds.setParent('..')
