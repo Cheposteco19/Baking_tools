@@ -55,27 +55,33 @@ def show_ui():
 
     # Browse defined
 def browse_low(*args):
-    low_path = cmds.fileDialog2(fileFilter="*.fbx", dialogStyle=2)
-    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME,edit=True,text=low_path[0])
+    browse(LOW_POLY_PATH_TEXT_BOX_NAME)
 
 def browse_high(*args):
-    high_path = cmds.fileDialog2(fileFilter="*.fbx", dialogStyle=2)
-    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME,edit=True,text=high_path[0])
+    browse(HIGH_POLY_PATH_TEXT_BOX_NAME)
+
+def browse(textbox):
+    path = cmds.fileDialog2(fileFilter="*.fbx", dialogStyle=2)
+    cmds.textField(textbox, edit=True, text=path[0])
 
 #Export buttons
 def low_exportFBX(*args):
     if cmds.checkBox(CHECK_BOX_NAME,query=True,value=True)==True:
         bake_tester_core.auto_unwrap()
-    paths_dict = read_directories_from_text_boxes()
-    low_path = paths_dict[LOW_POLY_PATH_TEXT_BOX_NAME]
-    cmds.file(low_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
-    write_directory_to_file(DIRECTORY_HISTORY_NAME,paths_dict)
+    exportFBX(LOW_POLY_PATH_TEXT_BOX_NAME)
 
 def high_exportFBX(*args):
-    paths_dict=read_directories_from_text_boxes()
-    high_path = paths_dict[HIGH_POLY_PATH_TEXT_BOX_NAME]
-    cmds.file(high_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
-    write_directory_to_file(DIRECTORY_HISTORY_NAME,paths_dict)
+    exportFBX(HIGH_POLY_PATH_TEXT_BOX_NAME)
+
+def exportFBX(text_box):
+    paths_dict = save_paths_to_file()
+    path_to_export = paths_dict[text_box]
+    cmds.file(path_to_export, force=True, options='v=0;', type='FBX export', exportSelected=True, preserveReferences=True)
+
+def save_paths_to_file():
+    paths_dict = read_directories_from_text_boxes()
+    write_directory_to_file(DIRECTORY_HISTORY_NAME, paths_dict)
+    return paths_dict
 
 def read_directories_from_text_boxes():
     paths_dict={}
