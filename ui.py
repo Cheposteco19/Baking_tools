@@ -1,11 +1,17 @@
 from baking_tools import core as bake_tester_core
 from maya import cmds
+import json
+import os
 
 WINDOW_NAME='bake_test_ui'
 CHECK_BOX_NAME='auto_unwrap_check_box'
 LOW_POLY_PATH_TEXT_BOX_NAME='low_poly_path_text_box'
 HIGH_POLY_PATH_TEXT_BOX_NAME='high_poly_path_text_box'
 DOCK_CONTROL_NAME='bake_tester_dock_control'
+
+DIRECTORY_HISTORY_NAME='directory_history'
+DIRECTORY_HISTORY_ROOT_DIR= r'C:\Users\jose1\OneDrive\Documentos\maya\2024\prefs'
+DIRECTORY_HISTORY_EXT= 'json'
 
 def show_ui():
     # Delete old window
@@ -60,9 +66,41 @@ def browse_high(*args):
 def low_exportFBX(*args):
     if cmds.checkBox(CHECK_BOX_NAME,query=True,value=True)==True:
         bake_tester_core.auto_unwrap()
-    low_path = cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
+    paths_dict = read_directories_from_text_boxes()
+    low_path = paths_dict[LOW_POLY_PATH_TEXT_BOX_NAME]
     cmds.file(low_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
+    write_directory_to_file(DIRECTORY_HISTORY_NAME,paths_dict)
 
 def high_exportFBX(*args):
-    high_path = cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
+    paths_dict=read_directories_from_text_boxes()
+    high_path = paths_dict[HIGH_POLY_PATH_TEXT_BOX_NAME]
     cmds.file(high_path,force=True,options='v=0;',type='FBX export',exportSelected=True,preserveReferences=True)
+    write_directory_to_file(DIRECTORY_HISTORY_NAME,paths_dict)
+
+def read_directories_from_text_boxes():
+    paths_dict={}
+    paths_dict[HIGH_POLY_PATH_TEXT_BOX_NAME] = cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
+    paths_dict[LOW_POLY_PATH_TEXT_BOX_NAME] = cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
+    return paths_dict
+def get_directory_dict():
+    directory_dict={}
+    for file_name in os.listdir(DIRECTORY_HISTORY_ROOT_DIR):
+        if not file_name.endswith(DIRECTORY_HISTORY_EXT):
+            continue
+        directory_history_name=file_name.split('.')[0]
+        file_path=os.path.join(DIRECTORY_HISTORY_ROOT_DIR, file_name)
+        directory_dict[directory_history_name]=file_path
+
+    return directory_dict
+
+def write_directory_to_file(directory_history_name, directory_dict):
+    file_name='{}.{}'.format(directory_history_name, DIRECTORY_HISTORY_EXT)
+    file_path=os.path.join(DIRECTORY_HISTORY_ROOT_DIR, file_name)
+
+    with open(file_path,'w') as f:
+        json.dump(directory_dict, f, indent=4)
+
+def read_directory_from_file(file_path):
+    with open(file_path,'r') as f:
+        directory_dict=json.load(f)
+    return directory_dict
