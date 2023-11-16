@@ -20,6 +20,7 @@ def show_ui():
 
     if cmds.dockControl(DOCK_CONTROL_NAME, exists=True,query=True):
         cmds.deleteUI(DOCK_CONTROL_NAME)
+    paths_dict=read_directory_from_file()
 
     # Create new window
     cmds.window(WINDOW_NAME, title='Baking tools', widthHeight=(500,100))
@@ -30,14 +31,14 @@ def show_ui():
 
     # Browse Low Export
     cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
-    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME)
+    cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, text=paths_dict[LOW_POLY_PATH_TEXT_BOX_NAME])
     cmds.button(label='...',command=browse_low)
     cmds.button(label='Export LOW',command=low_exportFBX,width=73)
     cmds.setParent('..')
 
     # Browse High Export
     cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
-    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME)
+    cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, text=paths_dict[HIGH_POLY_PATH_TEXT_BOX_NAME])
     cmds.button(label='...',command=browse_high)
     cmds.button(label='Export HIGH',command=high_exportFBX)
     cmds.setParent('..')
@@ -106,7 +107,13 @@ def write_directory_to_file(directory_history_name, directory_dict):
     with open(file_path,'w') as f:
         json.dump(directory_dict, f, indent=4)
 
-def read_directory_from_file(file_path):
-    with open(file_path,'r') as f:
-        directory_dict=json.load(f)
+def read_directory_from_file():
+    file_path = r'{}\{}.{}'.format(DIRECTORY_HISTORY_ROOT_DIR,DIRECTORY_HISTORY_NAME,DIRECTORY_HISTORY_EXT)
+    if not os.path.exists(file_path):
+        directory_dict={}
+        directory_dict[HIGH_POLY_PATH_TEXT_BOX_NAME]=''
+        directory_dict[LOW_POLY_PATH_TEXT_BOX_NAME]=''
+        return directory_dict
+    with open(file_path, 'r') as f:
+        directory_dict = json.load(f)
     return directory_dict
