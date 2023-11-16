@@ -1,5 +1,6 @@
 from baking_tools import core as bake_tester_core
 from maya import cmds
+import maya.mel as mm
 import json
 import os
 
@@ -10,7 +11,7 @@ HIGH_POLY_PATH_TEXT_BOX_NAME='high_poly_path_text_box'
 DOCK_CONTROL_NAME='bake_tester_dock_control'
 
 DIRECTORY_HISTORY_NAME='directory_history'
-DIRECTORY_HISTORY_ROOT_DIR= r'C:\Users\jose1\OneDrive\Documentos\maya\2024\prefs'
+DIRECTORY_HISTORY_ROOT_DIR = mm.eval('getenv "MAYA_APP_DIR";')
 DIRECTORY_HISTORY_EXT= 'json'
 
 def show_ui():
