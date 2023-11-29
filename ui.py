@@ -4,17 +4,24 @@ import maya.mel as mm
 import json
 import os
 
+#Window components names
 WINDOW_NAME='bake_test_ui'
 CHECK_BOX_NAME='auto_unwrap_check_box'
 LOW_POLY_PATH_TEXT_BOX_NAME='low_poly_path_text_box'
 HIGH_POLY_PATH_TEXT_BOX_NAME='high_poly_path_text_box'
 DOCK_CONTROL_NAME='bake_tester_dock_control'
 
+#Save preferances settings
 DIRECTORY_HISTORY_NAME='directory_history'
 DIRECTORY_HISTORY_ROOT_DIR = mm.eval('getenv "MAYA_APP_DIR";')
 DIRECTORY_HISTORY_EXT= 'json'
 
 def show_ui():
+    """
+
+    Creates the window
+
+    """
     # Delete old window
     if cmds.window(WINDOW_NAME, exists=True,query=True):
         cmds.deleteUI(WINDOW_NAME)
@@ -28,7 +35,7 @@ def show_ui():
 
     #Auto-Unwrap
     cmds.columnLayout(adjustableColumn=True, columnOffset=('both',10))
-    cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap")
+    cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap",annotation="Auto-unwraps/unfolds/face normals/soften/harden along borders/Kills history and numbers")
 
     # Browse Low Export
     cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
@@ -57,51 +64,64 @@ def show_ui():
 
     # Browse defined
 def browse_low(*args):
+    """Browses for low"""
     browse(LOW_POLY_PATH_TEXT_BOX_NAME)
 
 def browse_high(*args):
+    """browses for high"""
     browse(HIGH_POLY_PATH_TEXT_BOX_NAME)
 
 def browse(textbox):
+    """
+    Browses
+    Args:
+        textbox: for writing the user input when he browses
+    """
     path = cmds.fileDialog2(fileFilter="*.fbx", dialogStyle=2)
     cmds.textField(textbox, edit=True, text=path[0])
 
 #Export buttons
 def low_exportFBX(*args):
+    """Checks if auto unwrap is necesary and exports the selectction to the low poly path"""
     if cmds.checkBox(CHECK_BOX_NAME,query=True,value=True)==True:
         bake_tester_core.auto_unwrap()
     exportFBX(LOW_POLY_PATH_TEXT_BOX_NAME)
 
 def high_exportFBX(*args):
+    """Exports the selecton to the high poly path"""
     exportFBX(HIGH_POLY_PATH_TEXT_BOX_NAME)
 
 def exportFBX(text_box):
+    """
+    Gets the user input path, saves it and exports the FBX
+    Args:
+        text_box:which text box is the one to be read
+    """
     paths_dict = save_paths_to_file()
     path_to_export = paths_dict[text_box]
     cmds.file(path_to_export, force=True, options='v=0;', type='FBX export', exportSelected=True, preserveReferences=True)
 
 def save_paths_to_file():
+    """
+    Saves paths in user preferences
+    Returns: previous paths dictionary
+    """
     paths_dict = read_directories_from_text_boxes()
     write_directory_to_file(DIRECTORY_HISTORY_NAME, paths_dict)
     return paths_dict
 
 def read_directories_from_text_boxes():
+    """
+    Reads paths from user input
+    Returns: paths dictionary read
+    """
     paths_dict={}
     paths_dict[HIGH_POLY_PATH_TEXT_BOX_NAME] = cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
     paths_dict[LOW_POLY_PATH_TEXT_BOX_NAME] = cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, query=True, text=True)
     return paths_dict
-def get_directory_dict():
-    directory_dict={}
-    for file_name in os.listdir(DIRECTORY_HISTORY_ROOT_DIR):
-        if not file_name.endswith(DIRECTORY_HISTORY_EXT):
-            continue
-        directory_history_name=file_name.split('.')[0]
-        file_path=os.path.join(DIRECTORY_HISTORY_ROOT_DIR, file_name)
-        directory_dict[directory_history_name]=file_path
-
-    return directory_dict
 
 def write_directory_to_file(directory_history_name, directory_dict):
+    """Writes paths into user preferences"""
     file_name='{}.{}'.format(directory_history_name, DIRECTORY_HISTORY_EXT)
     file_path=os.path.join(DIRECTORY_HISTORY_ROOT_DIR, file_name)
 
@@ -109,6 +129,10 @@ def write_directory_to_file(directory_history_name, directory_dict):
         json.dump(directory_dict, f, indent=4)
 
 def read_directory_from_file():
+    """
+    Reads paths from user preferences
+    Returns: paths dictionary read
+    """
     file_path = r'{}\{}.{}'.format(DIRECTORY_HISTORY_ROOT_DIR,DIRECTORY_HISTORY_NAME,DIRECTORY_HISTORY_EXT)
     if not os.path.exists(file_path):
         directory_dict={}
