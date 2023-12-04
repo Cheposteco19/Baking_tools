@@ -41,10 +41,11 @@ def show_ui():
 
     #Auto-Unwrap
     cmds.columnLayout(adjustableColumn=True, columnOffset=('both',10))
-    cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap",annotation="Auto-unwraps/unfolds/face normals/soften/harden along borders/Kills history and numbers")
+    cmds.checkBox(CHECK_BOX_NAME,label="Auto-Unwrap Slot 1",annotation="auto-unwrap/unfold/unlock normals/soften-harden texture borders/kills history and numbers")
 
     # Browse Low Export
-    cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4,adjustableColumn=2)
+    cmds.text(label='1 ')
     if paths_dict.get(LOW_POLY_PATH_TEXT_BOX_NAME) is not None:
         cmds.textField(LOW_POLY_PATH_TEXT_BOX_NAME, text=paths_dict[LOW_POLY_PATH_TEXT_BOX_NAME])
     else:
@@ -54,7 +55,8 @@ def show_ui():
     cmds.setParent('..')
 
     # Browse High Export
-    cmds.rowLayout(numberOfColumns=3,adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4,adjustableColumn=2)
+    cmds.text(label='2 ')
     if paths_dict.get(HIGH_POLY_PATH_TEXT_BOX_NAME) is not None:
         cmds.textField(HIGH_POLY_PATH_TEXT_BOX_NAME, text=paths_dict[HIGH_POLY_PATH_TEXT_BOX_NAME])
     else:
@@ -63,9 +65,10 @@ def show_ui():
     cmds.button(label='Export HIGH',command=high_exportFBX)
     cmds.setParent('..')
 
-    cmds.frameLayout('More?',collapsable=True,collapse=True)
+    cmds.frameLayout('Extra slots',collapsable=True,collapse=True)
     # Browse Extra Export 1
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4, adjustableColumn=2)
+    cmds.text(label='3 ')
     if paths_dict.get(EXTRA_PATH_TEXT_BOX_NAME_1) is not None:
         cmds.textField(EXTRA_PATH_TEXT_BOX_NAME_1, text=paths_dict[EXTRA_PATH_TEXT_BOX_NAME_1])
     else:
@@ -75,7 +78,8 @@ def show_ui():
     cmds.setParent('..')
 
     # Browse Extra Export 2
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4, adjustableColumn=2)
+    cmds.text(label='4 ')
     if paths_dict.get(EXTRA_PATH_TEXT_BOX_NAME_2) is not None:
         cmds.textField(EXTRA_PATH_TEXT_BOX_NAME_2, text=paths_dict[EXTRA_PATH_TEXT_BOX_NAME_2])
     else:
@@ -85,7 +89,8 @@ def show_ui():
     cmds.setParent('..')
 
     # Browse Extra Export 3
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4, adjustableColumn=2)
+    cmds.text(label='5 ')
     if paths_dict.get(EXTRA_PATH_TEXT_BOX_NAME_3) is not None:
         cmds.textField(EXTRA_PATH_TEXT_BOX_NAME_3, text=paths_dict[EXTRA_PATH_TEXT_BOX_NAME_3])
     else:
@@ -95,7 +100,8 @@ def show_ui():
     cmds.setParent('..')
 
     # Browse Extra Export 4
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4, adjustableColumn=2)
+    cmds.text(label='6 ')
     if paths_dict.get(EXTRA_PATH_TEXT_BOX_NAME_4) is not None:
         cmds.textField(EXTRA_PATH_TEXT_BOX_NAME_4, text=paths_dict[EXTRA_PATH_TEXT_BOX_NAME_4])
     else:
@@ -105,7 +111,8 @@ def show_ui():
     cmds.setParent('..')
 
     # Browse Extra Export 5
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4, adjustableColumn=2)
+    cmds.text(label='7 ')
     if paths_dict.get(EXTRA_PATH_TEXT_BOX_NAME_5) is not None:
         cmds.textField(EXTRA_PATH_TEXT_BOX_NAME_5, text=paths_dict[EXTRA_PATH_TEXT_BOX_NAME_5])
     else:
@@ -115,7 +122,8 @@ def show_ui():
     cmds.setParent('..')
 
     # Browse Extra Export 6
-    cmds.rowLayout(numberOfColumns=3, adjustableColumn=True)
+    cmds.rowLayout(numberOfColumns=4, adjustableColumn=2)
+    cmds.text(label='8 ')
     if paths_dict.get(EXTRA_PATH_TEXT_BOX_NAME_6) is not None:
         cmds.textField(EXTRA_PATH_TEXT_BOX_NAME_6, text=paths_dict[EXTRA_PATH_TEXT_BOX_NAME_6])
     else:
